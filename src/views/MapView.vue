@@ -109,9 +109,7 @@ const mapImageUrl = new URL('@/assets/map_image/hollow-knight-full-map.png', imp
 
 <template>
   <div class="map-view-root">
-    <!-- 顶部标题：紧贴导航栏下方 -->
     <PageTitle msg="地图" />
-    <!-- 标题下方一点，放置绝对居中的大地图 -->
     <div class="map-main-wrapper">
       <InteractiveMap :regions="mapRegions" :image-url="mapImageUrl" />
     </div>
@@ -122,7 +120,6 @@ const mapImageUrl = new URL('@/assets/map_image/hollow-knight-full-map.png', imp
 .map-view-root {
   width: 100%;
   min-height: 100vh;
-  /* 整个页面内容整体推到固定导航栏下面；根据实际导航栏高度调这个值 */
   padding-top: 100px;
   display: flex;
   flex-direction: column;
