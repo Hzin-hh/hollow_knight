@@ -55,7 +55,7 @@ const worldviewSlides = [
 .story-view-root {
   width: 100%;
   min-height: 100vh;
-  padding-top: 100px;
+  padding-top: 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -64,10 +64,10 @@ const worldviewSlides = [
 }
 
 .story-content {
-  margin-top: 220px;
+  margin-top: 0px;
   padding: 2.5rem 1.5rem 3.5rem;
   width: 100%;
-  max-width: 1100px;
+  max-width: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -75,8 +75,10 @@ const worldviewSlides = [
 
 @media (max-width: 768px) {
   .story-content {
-    margin-top: 210px;
+    margin-top: 0px;
     padding-inline: 1rem;
+    max-width: 100%;
+
   }
 }
 </style>
