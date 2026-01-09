@@ -4,7 +4,7 @@
     <PageTitle msg="空洞骑士" />
     
     <div class="minimal-nav-container">
-      <RouterLink to="/gallery" class="minimal-nav-item">
+      <RouterLink to="/npcandenemy" class="minimal-nav-item">
         <img 
           src="https://huiji-thumb.huijistatic.com/hkss/uploads/thumb/d/d1/Hunters_Journal.png/200px-Hunters_Journal.png" 
           alt="猎人日志" 
