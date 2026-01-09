@@ -4,7 +4,7 @@ import MapView from '../views/MapView.vue'
 import GalleryView from '../views/GalleryView.vue'
 import StoryView from '../views/StoryView.vue'
 import FeaturesView from '../views/FeatureView.vue'
-
+import NPCandEnemy from '../components/NPCandEnemy.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,6 +43,11 @@ const router = createRouter({
       path:'/skill',
       name:'skill',
       component:()=>import('../Gallery/skill.vue'),
+    },
+    {
+      path:'/npcandenemy',
+      name:'npcandenemy',
+      component: NPCandEnemy,
     }
   ],
 })
