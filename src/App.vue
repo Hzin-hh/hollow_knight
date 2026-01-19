@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-
+import MusicPlayer from '@/components/MusicPlayer.vue'
 </script>
 
 <template>
