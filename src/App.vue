@@ -7,6 +7,7 @@ import MusicPlayer from '@/components/MusicPlayer.vue'
   <div>
   <!-- 全站背景 -->
   <div id="app-bg"></div>
+    <MusicPlayer />
   <!--全站导航-->
   <nav class="nav">
     <RouterLink to="/">首页</RouterLink>
