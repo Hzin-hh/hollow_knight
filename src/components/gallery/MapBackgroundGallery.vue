@@ -5,56 +5,104 @@
       <p>点击缩略图切换不同区域</p>
     </div>
     
-    <!-- 主展示区 -->
-    <div class="main-image-placeholder">
-      <div class="placeholder-content">
-        <div class="image-sim" style="background: linear-gradient(135deg, #2c2418, #4a3c2c);">
-          <span>德特茅斯 - 起始小镇</span>
-        </div>
-      </div>
+<!-- 主展示区 -->
+<div class="main-image-container">
+  <div class="image-wrapper">
+    <img 
+      :src="currentImage.src" 
+      :alt="currentImage.name"
+      class="main-image"
+      @click="openFullscreen"
+    />
+    <div class="image-info">
+      <h4>{{ currentImage.name }}</h4>
+      <p>{{ currentImage.description }}</p>
     </div>
+  </div>
+</div>
     
-    <!-- 缩略图导航 -->
-    <div class="thumbnail-nav">
-      <div class="thumbnail active">
-        <div style="background: linear-gradient(135deg, #2c2418, #4a3c2c);"></div>
-        <span>德特茅斯</span>
-      </div>
-      <div class="thumbnail">
-        <div style="background: linear-gradient(135deg, #1a3c1a, #2c5c2c);"></div>
-        <span>苍绿之径</span>
-      </div>
-      <div class="thumbnail">
-        <div style="background: linear-gradient(135deg, #2c3858, #3c4a6c);"></div>
-        <span>泪水之城</span>
-      </div>
-      <div class="thumbnail">
-        <div style="background: linear-gradient(135deg, #3c2c5c, #4c3c6c);"></div>
-        <span>水晶山峰</span>
-      </div>
-    </div>
+   <!-- 缩略图导航 -->
+<div class="thumbnail-nav">
+  <div 
+    v-for="(img, index) in images" 
+    :key="img.id"
+    class="thumbnail" 
+    :class="{ active: currentIndex === index }"
+    @click="selectImage(index)"
+  >
+    <img :src="img.thumbnail" :alt="img.name" class="thumb-img" />
+    <span>{{ img.name }}</span>
+  </div>
+</div>
     
-    <!-- 控制按钮 -->
-    <div class="gallery-controls">
-      <button class="control-btn" @click="prevImage">← 上一个</button>
-      <span class="counter">{{ currentIndex + 1 }} / {{ totalImages }}</span>
-      <button class="control-btn" @click="nextImage">下一个 →</button>
-    </div>
+<!-- 控制按钮 -->
+<div class="gallery-controls">
+  <button class="control-btn" @click="prevImage">← 上一个</button>
+  <span class="counter">{{ currentIndex + 1 }} / {{ images.length }}</span>
+  <button class="control-btn" @click="nextImage">下一个 →</button>
+</div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+
+// 使用图床在线图片
+const images = ref([
+  {
+    id: 1,
+    name: '德特茅斯',
+    description: '衰败的小镇入口',
+    src: 'https://i.imgur.com/6v8J9cW.png',
+    thumbnail: 'https://i.imgur.com/6v8J9cW.png'
+  },
+  {
+    id: 2, 
+    name: '苍绿之径',
+    description: '生机盎然的森林区域',
+    src: 'https://i.imgur.com/Zy7N9qT.png',
+    thumbnail: 'https://i.imgur.com/Zy7N9qT.png'
+  },
+  {
+    id: 3,
+    name: '泪水之城', 
+    description: '永远下雨的辉煌都市',
+    src: 'https://i.imgur.com/8m9K3pQ.png',
+    thumbnail: 'https://i.imgur.com/8m9K3pQ.png'
+  },
+  {
+    id: 4,
+    name: '水晶山峰',
+    description: '发光的水晶矿洞', 
+    src: 'https://i.imgur.com/xL5dVrF.png',
+    thumbnail: 'https://i.imgur.com/xL5dVrF.png'
+  },
+  {
+    id: 5,
+    name: '深邃巢穴',
+    description: '黑暗的蜘蛛巢穴',
+    src: 'https://i.imgur.com/t9v7YyR.png',
+    thumbnail: 'https://i.imgur.com/t9v7YyR.png'
+  }
+]);
 
 const currentIndex = ref(0);
-const totalImages = 4;
+const currentImage = computed(() => images.value[currentIndex.value]);
 
 const nextImage = () => {
-  currentIndex.value = (currentIndex.value + 1) % totalImages;
+  currentIndex.value = (currentIndex.value + 1) % images.value.length;
 };
 
 const prevImage = () => {
-  currentIndex.value = (currentIndex.value - 1 + totalImages) % totalImages;
+  currentIndex.value = (currentIndex.value - 1 + images.value.length) % images.value.length;
+};
+
+const selectImage = (index: number) => {
+  currentIndex.value = index;
+};
+
+const openFullscreen = () => {
+  window.open(currentImage.value.src, '_blank');
 };
 </script>
 
@@ -164,3 +212,61 @@ const prevImage = () => {
   text-align: center;
 }
 </style>
+/* 添加在主展示区样式后面 */
+.main-image-container {
+  margin-bottom: 20px;
+}
+
+.image-wrapper {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+}
+
+.main-image {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.main-image:hover {
+  transform: scale(1.02);
+}
+
+.image-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.85));
+  color: white;
+  padding: 15px 20px;
+}
+
+.image-info h4 {
+  margin: 0 0 5px 0;
+  font-size: 1.3rem;
+}
+
+.image-info p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* 修改缩略图样式 */
+.thumb-img {
+  width: 100%;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  border: 2px solid transparent;
+}
+
+.thumbnail.active .thumb-img {
+  border-color: #e8d8b8;
+}
