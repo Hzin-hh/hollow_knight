@@ -84,7 +84,6 @@ const images = ref([
     thumbnail: 'https://images.unsplash.com/photo-1511497584788-876760111969?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80'
   }
 ]);
-
 const currentIndex = ref(0);
 const currentImage = computed(() => images.value[currentIndex.value]);
 
