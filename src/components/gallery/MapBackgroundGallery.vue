@@ -52,36 +52,36 @@ const images = ref([
     id: 1,
     name: '德特茅斯',
     description: '衰败的小镇入口',
-    src: 'https://img.zcool.cn/community/0106bc5b5c9d67a80121ade09f5e1d.jpg',
-    thumbnail: 'https://img.zcool.cn/community/0106bc5b5c9d67a80121ade09f5e1d.jpg@300w_1l_2o_100sh.jpg'
+    src: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80',
+    thumbnail: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80'
   },
   {
     id: 2, 
     name: '苍绿之径',
     description: '生机盎然的森林区域',
-    src: 'https://img.zcool.cn/community/014e935cc4ddbda801214168a0c8e9.jpg',
-    thumbnail: 'https://img.zcool.cn/community/014e935cc4ddbda801214168a0c8e9.jpg@300w_1l_2o_100sh.jpg'
+    src: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80',
+    thumbnail: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80'
   },
   {
     id: 3,
     name: '泪水之城', 
     description: '永远下雨的辉煌都市',
-    src: 'https://img.zcool.cn/community/016b4b5b87d12ea8012187f41dda1f.jpg',
-    thumbnail: 'https://img.zcool.cn/community/016b4b5b87d12ea8012187f41dda1f.jpg@300w_1l_2o_100sh.jpg'
+    src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80',
+    thumbnail: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80'
   },
   {
     id: 4,
     name: '水晶山峰',
     description: '发光的水晶矿洞', 
-    src: 'https://img.zcool.cn/community/0130cd5b3c0c85a80121ab5d0a5c29.jpg',
-    thumbnail: 'https://img.zcool.cn/community/0130cd5b3c0c85a80121ab5d0a5c29.jpg@300w_1l_2o_100sh.jpg'
+    src: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80',
+    thumbnail: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80'
   },
   {
     id: 5,
     name: '深邃巢穴',
     description: '黑暗的蜘蛛巢穴',
-    src: 'https://img.zcool.cn/community/01f8b75b3c56c3a80121ab5d79ea70.jpg',
-    thumbnail: 'https://img.zcool.cn/community/01f8b75b3c56c3a80121ab5d79ea70.jpg@300w_1l_2o_100sh.jpg'
+    src: 'https://images.unsplash.com/photo-1511497584788-876760111969?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80',
+    thumbnail: 'https://images.unsplash.com/photo-1511497584788-876760111969?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80'
   }
 ]);
 
