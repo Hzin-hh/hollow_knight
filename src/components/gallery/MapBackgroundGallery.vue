@@ -1,247 +1,259 @@
 <template>
-  <div class="carousel-gallery">
-    <div class="carousel-header">
-      <h3>地图背景轮播展示</h3>
-      <p>点击缩略图切换不同区域</p>
+  <div class="map-gallery">
+    <div class="gallery-header">
+      <h2>🗺️ 地图环境艺术画廊</h2>
+      <p>探索Hallownest王国的视觉设计 | {{ currentTime }}</p>
     </div>
     
     <!-- 主展示区 -->
-    <div class="main-image-container">
-      <div class="image-wrapper">
-        <img 
-          :src="currentImage.src" 
-          :alt="currentImage.name"
-          class="main-image"
-          @click="openFullscreen"
-        />
-        <div class="image-info">
-          <h4>{{ currentImage.name }}</h4>
-          <p>{{ currentImage.description }}</p>
-        </div>
+    <div class="main-display">
+      <div class="selected-area" :style="{ background: currentArea.color }">
+        <h3>{{ currentArea.name }}</h3>
+        <p class="en-title">{{ currentArea.enName }}</p>
+        <p>{{ currentArea.description }}</p>
+      </div>
+      
+      <div class="controls">
+        <button @click="prevArea" :disabled="currentIndex === 0">← 上一个</button>
+        <span class="counter">{{ currentIndex + 1 }}/{{ areas.length }}</span>
+        <button @click="nextArea" :disabled="currentIndex === areas.length - 1">下一个 →</button>
       </div>
     </div>
     
-    <!-- 缩略图导航 -->
-    <div class="thumbnail-nav">
+    <!-- 缩略图区域 -->
+    <div class="thumbnails">
       <div 
-        v-for="(img, index) in images" 
-        :key="img.id"
+        v-for="(area, index) in areas" 
+        :key="area.id"
         class="thumbnail" 
-        :class="{ active: currentIndex === index }"
-        @click="selectImage(index)"
+        :class="{ active: index === currentIndex }"
+        @click="selectArea(index)"
+        :style="{ borderColor: area.color }"
       >
-        <img :src="img.thumbnail" :alt="img.name" class="thumb-img" />
-        <span>{{ img.name }}</span>
+        <div class="color-dot" :style="{ background: area.color }"></div>
+        <span>{{ area.name }}</span>
       </div>
     </div>
     
-    <!-- 控制按钮 -->
-    <div class="gallery-controls">
-      <button class="control-btn" @click="prevImage">← 上一个</button>
-      <span class="counter">{{ currentIndex + 1 }} / {{ images.length }}</span>
-      <button class="control-btn" @click="nextImage">下一个 →</button>
+    <!-- 调试信息 -->
+    <div class="debug-info" v-if="showDebug">
+      <p>✅ 组件状态：正常 | 区域数：{{ areas.length }} | 当前：{{ currentArea.name }}</p>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref, computed } from 'vue';
-
-const images = ref([
-  {
-    id: 1,
-    name: '德特茅斯',
-    description: '衰败的小镇入口',
-    src: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80',
-    thumbnail: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80'
+<script>
+export default {
+  name: 'MapBackgroundGallery',
+  data() {
+    return {
+      currentIndex: 0,
+      currentTime: new Date().toLocaleTimeString(),
+      showDebug: true, // 开发时显示，上线可改为false
+      areas: [
+        { 
+          id: 1, 
+          name: '泪水之城', 
+          enName: 'City of Tears', 
+          color: '#4a6fa5',
+          description: '永恒雨幕笼罩的悲伤都市，哥特式拱廊建筑，蓝色调为主，雨幕特效增强氛围。' 
+        },
+        { 
+          id: 2, 
+          name: '真菌荒地', 
+          enName: 'Fungal Wastes', 
+          color: '#8a6d3b',
+          description: '发光真菌覆盖的生态区，荧光蘑菇与橙色孢子雾，有机地形设计。' 
+        },
+        { 
+          id: 3, 
+          name: '水晶山峰', 
+          enName: 'Crystal Peak', 
+          color: '#6c5ce7',
+          description: '闪耀晶体构成的矿山，水晶簇反射光线，蓝紫色调，尖锐地形。' 
+        },
+        { 
+          id: 4, 
+          name: '苍绿之径', 
+          enName: 'Greenpath', 
+          color: '#27ae60',
+          description: '植被茂密的潮湿区域，荧光苔藓，滴水特效，浓密的绿色植被。' 
+        },
+        { 
+          id: 5, 
+          name: '深邃巢穴', 
+          enName: 'Deepnest', 
+          color: '#2d3436',
+          description: '黑暗压抑的蜘蛛巢穴，极低光照，蛛网纹理，狭窄通道设计。' 
+        }
+      ]
+    }
   },
-  {
-    id: 2, 
-    name: '苍绿之径',
-    description: '生机盎然的森林区域',
-    src: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80',
-    thumbnail: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80'
+  computed: {
+    currentArea() {
+      return this.areas[this.currentIndex]
+    }
   },
-  {
-    id: 3,
-    name: '泪水之城', 
-    description: '永远下雨的辉煌都市',
-    src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80',
-    thumbnail: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80'
+  methods: {
+    nextArea() {
+      if (this.currentIndex < this.areas.length - 1) {
+        this.currentIndex++
+      }
+    },
+    prevArea() {
+      if (this.currentIndex > 0) {
+        this.currentIndex--
+      }
+    },
+    selectArea(index) {
+      this.currentIndex = index
+    }
   },
-  {
-    id: 4,
-    name: '水晶山峰',
-    description: '发光的水晶矿洞', 
-    src: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80',
-    thumbnail: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80'
-  },
-  {
-    id: 5,
-    name: '深邃巢穴',
-    description: '黑暗的蜘蛛巢穴',
-    src: 'https://images.unsplash.com/photo-1511497584788-876760111969?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80',
-    thumbnail: 'https://images.unsplash.com/photo-1511497584788-876760111969?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80'
+  mounted() {
+    // 更新时间
+    setInterval(() => {
+      this.currentTime = new Date().toLocaleTimeString()
+    }, 1000)
+    console.log('🎯 MapBackgroundGallery组件已加载')
   }
-]);
-const currentIndex = ref(0);
-const currentImage = computed(() => images.value[currentIndex.value]);
-
-const nextImage = () => {
-  currentIndex.value = (currentIndex.value + 1) % images.value.length;
-};
-
-const prevImage = () => {
-  currentIndex.value = (currentIndex.value - 1 + images.value.length) % images.value.length;
-};
-
-const selectImage = (index: number) => {
-  currentIndex.value = index;
-};
-
-const openFullscreen = () => {
-  window.open(currentImage.value.src, '_blank');
-};
+}
 </script>
 
 <style scoped>
-.carousel-gallery {
-  background: rgba(30, 25, 20, 0.7);
+.map-gallery {
+  background: rgba(30, 30, 35, 0.95);
+  border-radius: 16px;
+  padding: 30px;
+  border: 2px solid #5d4d3a;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  color: #f0e6d2;
+}
+
+.gallery-header {
+  text-align: center;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #5d4d3a;
+  padding-bottom: 20px;
+}
+
+.gallery-header h2 {
+  color: #e8d8b8;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.gallery-header p {
+  color: #b8a488;
+  font-size: 1.1rem;
+}
+
+.main-display {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.selected-area {
+  padding: 40px;
   border-radius: 12px;
-  padding: 20px;
-  border: 1px solid #5d4d3a;
-}
-
-.carousel-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.carousel-header h3 {
-  color: #e8d8b8;
-  margin-bottom: 5px;
-}
-
-.carousel-header p {
-  color: #b8a488;
-  font-size: 0.9rem;
-}
-
-/* 主展示区样式 */
-.main-image-container {
-  margin-bottom: 20px;
-}
-
-.image-wrapper {
-  position: relative;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-}
-
-.main-image {
-  width: 100%;
-  height: 380px;
-  object-fit: cover;
-  cursor: pointer;
-  transition: transform 0.3s;
-}
-
-.main-image:hover {
-  transform: scale(1.02);
-}
-
-.image-info {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(transparent, rgba(0,0,0,0.85));
   color: white;
-  padding: 15px 20px;
-}
-
-.image-info h4 {
-  margin: 0 0 5px 0;
-  font-size: 1.3rem;
-}
-
-.image-info p {
-  margin: 0;
-  font-size: 0.9rem;
-  opacity: 0.9;
-}
-
-/* 缩略图导航 */
-.thumbnail-nav {
+  min-height: 200px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  gap: 15px;
-  margin-bottom: 15px;
-  flex-wrap: wrap;
+  transition: all 0.3s ease;
 }
 
-.thumbnail {
-  width: 100px;
-  cursor: pointer;
-  opacity: 0.7;
-  transition: all 0.2s;
+.selected-area h3 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
 }
 
-.thumbnail:hover {
+.en-title {
+  font-style: italic;
   opacity: 0.9;
+  margin-bottom: 20px;
 }
 
-.thumbnail.active {
-  opacity: 1;
-  transform: translateY(-5px);
-}
-
-.thumb-img {
-  width: 100%;
-  height: 70px;
-  object-fit: cover;
-  border-radius: 4px;
-  margin-bottom: 5px;
-  border: 2px solid transparent;
-}
-
-.thumbnail.active .thumb-img {
-  border-color: #e8d8b8;
-}
-
-.thumbnail span {
-  display: block;
-  text-align: center;
-  color: #b8a488;
-  font-size: 0.85rem;
-}
-
-/* 控制按钮 */
-.gallery-controls {
+.controls {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 20px;
 }
 
-.control-btn {
-  background: #5d4d3a;
+.controls button {
+  padding: 12px 24px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid #5d4d3a;
   color: #e8d8b8;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s;
+  font-size: 1rem;
+  transition: all 0.3s;
 }
 
-.control-btn:hover {
-  background: #6b5a45;
+.controls button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #b8a488;
+}
+
+.controls button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .counter {
+  font-size: 1.2rem;
   color: #b8a488;
-  min-width: 60px;
+  font-weight: bold;
+}
+
+.thumbnails {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding: 15px 0;
+  margin-bottom: 20px;
+}
+
+.thumbnail {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.thumbnail:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-3px);
+}
+
+.thumbnail.active {
+  border-color: currentColor;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.color-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.debug-info {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #4ecdc4;
   text-align: center;
+  border: 1px dashed #4ecdc4;
 }
 </style>
