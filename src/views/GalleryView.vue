@@ -48,7 +48,6 @@ import { RouterLink } from 'vue-router'
   padding: 20px;
 }
 
-/* 极简导航容器 */
 .minimal-nav-container {
   display: flex;
   justify-content: center;
@@ -58,7 +57,6 @@ import { RouterLink } from 'vue-router'
   flex-wrap: wrap;
 }
 
-/* 极简导航项 */
 .minimal-nav-item {
   display: flex;
   flex-direction: column;
@@ -67,7 +65,6 @@ import { RouterLink } from 'vue-router'
   width: 160px;
 }
 
-/* 极简导航图片 */
 .minimal-nav-image {
   background: #0A0A0A;
   width: 150px;
