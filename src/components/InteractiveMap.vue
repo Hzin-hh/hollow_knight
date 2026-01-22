@@ -49,7 +49,6 @@ const MAP_HEIGHT = 695
 // 使用像素坐标为 15 个区域建立映射
 const coordMap: Record<string, number[]> = {
   // 呼啸悬崖（howling-cliffs）
-  // 注意：第一个点改为 156x20（其余点保持你提供的顺序）
   'howling-cliffs': [156, 20, 155, 102, 259, 133, 263, 161, 310, 161, 310, 99, 351, 96, 351, 22],
   // 苍绿之径（greenpath）
   greenpath: [64, 148, 53, 199, 169, 202, 170, 248, 355, 255, 367, 181, 252, 178, 233, 146],
@@ -101,7 +100,6 @@ const detailPosition = ref<{
 function getClipPathStyle(region: MapRegion) {
   const pixels = coordMap[region.id]
   if (!pixels || pixels.length < 6) {
-    // 未配置坐标时，不应用 clip-path，避免出现异常
     return {}
   }
 
@@ -124,7 +122,6 @@ function getClipPathStyle(region: MapRegion) {
 
 function handleRegionHover(region: MapRegion, event: MouseEvent) {
   activeRegion.value = region
-  // 详情框相对于视窗定位：在鼠标右下方 20px 处
   detailPosition.value = {
     left: `${event.clientX + 20}px`,
     top: `${event.clientY}px`,
@@ -157,21 +154,18 @@ function handleRegionLeave() {
 }
 
 .map-container {
-  position: relative; /* 为透明交互层建立定位上下文 */
-  /* 确保图片容器根据图片实际大小决定，不被撑满 */
+  position: relative;
   display: inline-block;
-  /* 将整张地图（图片 + 透明交互层）整体缩放为原来的 70% */
   transform: scale(0.7);
   transform-origin: top center;
 }
 
 .hk-map-image {
-  /* 保持原始比例，由外部容器缩放控制整体大小 */
   max-width: 100%;
   max-height: 100%;
   width: auto;
   height: auto;
-  display: block; /* 去除图片底部间隙 */
+  display: block;
 }
 
 .region-overlay {
@@ -180,7 +174,6 @@ function handleRegionLeave() {
   left: 0;
   width: 100%;
   height: 100%;
-  /* 整个覆盖层必须和背景图完全重合 */
 }
 
 .region-mask {
@@ -189,16 +182,14 @@ function handleRegionLeave() {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: transparent; /* 默认完全透明 */
+  background-color: transparent;
   cursor: pointer;
-  /* 核心：初始 clip-path 可被动态样式覆盖 */
   clip-path: polygon(0% 0%, 0% 0%, 0% 0%);
-  /* 悬停时提供高亮反馈（可选） */
   transition: background-color 0.2s;
 }
 
 .region-mask:hover {
-  background-color: rgba(255, 215, 0, 0.15); /* 极淡的金色高亮，用于理解交互 */
+  background-color: rgba(255, 215, 0, 0.15);
 }
 
 .floating-detail {
